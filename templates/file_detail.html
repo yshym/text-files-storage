@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ file.name }} | {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-end">
+            <h4>{{ file.name }}</h4>
+            <span class="badge text-wrap border border-warning ml-auto text-secondary h-100">
+                {{ file.get_ext }}
+            </span>
+        </div>
+        <div class="card-body">
+            {% if file.description %}
+                <h5 class="card-subtitle mb-2 text-info"><i>Description</i></h5>
+                <hr/>
+                <p>
+                    {{ file.description }}
+                </p>
+                <br/>
+            {% endif %}
+            <h5 class="card-subtitle mb-2 text-info"><i>Text content</i></h5>
+            <hr/>
+            <p class="card-text">{{ file.read_text_content }}</p>
+        </div>
+        <div class="card-footer">
+            {% if file.uploaded_by %}
+            <span class="badge text wrap">Uploaded by: {{ file.uploaded_by }}</span><hr/>
+            {% endif %}
+
+            <a href="{% url 'file_download' file.slug %}" class="btn btn-primary">Download</a>
+            <a href="{% url 'file_list' %}" class="btn btn-info">Back to list</a>
+        </div>
+    </div>
+{% endblock content %}

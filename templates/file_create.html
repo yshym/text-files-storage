@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h1>
+                Upload new file
+                <span
+                    class="{% if uploading_type == 'Anonymously' %}
+                           text-warning
+                           {% else %}
+                           text-success
+                           {% endif %}">({{ uploading_type }})</span>
+            </h1>
+            <hr/>
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                {{ form|crispy }}
+                <hr/>
+                <button type="sumbit" class="btn btn-success">Create</button>
+                <a href="{% url 'file_list' %}" class="btn btn-info">Back to list</a>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
