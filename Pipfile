@@ -12,6 +12,7 @@ pocketsphinx = "*"
 docx2txt = "*"
 django-crispy-forms = "*"
 python-slugify = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
