@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "35c3819a4ca69ae0481a43de126ada8f1d1e03240241b60965b3ad516ce67bfb"
+            "sha256": "08733e62b3cc70d813306344285c6b845615ce0652ad458e69b1880c97ec66a7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -153,7 +153,6 @@
                 "sha256:f6bfa8e9a08026c46061364f59e9af8b0f4049142d4f155d9f07229d9b2d8281",
                 "sha256:fdbf33d926aece1c56fc7772fe7763f371eb8b0029ed85b498558aba15a8eb21"
             ],
-            "index": "pypi",
             "version": "==0.1.3"
         },
         "python-pptx": {
