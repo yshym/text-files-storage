@@ -141,20 +141,6 @@
             ],
             "version": "==5.4.1"
         },
-        "pocketsphinx": {
-            "hashes": [
-                "sha256:2b06fea365b55a40a0e51510b1b62a1575f264a38516ad20b940c133d569f6ef",
-                "sha256:42c82f117009a7355f281932a5fe6bee1f68a432631712241c60d207ef267931",
-                "sha256:59f6de8ec032dccf059e0c5c9f1a21df553b9cfb6f4d5ebcfe580634c849f376",
-                "sha256:919503baba39604d6f1b8017a8fc239c41f77c7646748a0cc077001579a0bade",
-                "sha256:9f932d7a6e2ec04ea8f0b019537fa0c92e702a226a02007223c55a46606c9568",
-                "sha256:ac125aadefc85ab78706a4d18ae66c3dcf89eb9e2a0cbd88c7a6086df420346d",
-                "sha256:ccdc5fb5591649cd0edcdde541bc813b5f74bf5dd04872b937e551732eaa6847",
-                "sha256:f6bfa8e9a08026c46061364f59e9af8b0f4049142d4f155d9f07229d9b2d8281",
-                "sha256:fdbf33d926aece1c56fc7772fe7763f371eb8b0029ed85b498558aba15a8eb21"
-            ],
-            "version": "==0.1.3"
-        },
         "python-pptx": {
             "hashes": [
                 "sha256:67926906d088e28f6ad2174f1c6512c4a3507aa9cc2b252cb2fa9698b0588c86"
