@@ -23,11 +23,11 @@
             {% endif %}
             <h5 class="card-subtitle mb-2 text-info"><i>Text content</i></h5>
             <hr/>
-            <p class="card-text">{{ file.read_text_content }}</p>
+            <p class="card-text">{{ file.text }}</p>
         </div>
         <div class="card-footer">
             {% if file.uploaded_by %}
-            <span class="badge text wrap">Uploaded by: {{ file.uploaded_by }}</span><hr/>
+                <span class="badge text wrap">Uploaded by: {{ file.uploaded_by }}</span><hr/>
             {% endif %}
 
             <a href="{% url 'file_download' file.slug %}" class="btn btn-primary">Download</a>

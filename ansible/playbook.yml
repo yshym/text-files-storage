@@ -1,0 +1,43 @@
+---
+- hosts: all
+  vars:
+    project_name: textFilesStorage
+    repo_name: fly1ngDream/text-files-storage
+  tasks:
+  - name: Dependencies
+    tags: apt
+    apt: cache_valid_time=3600 name={{ item }}
+    become: yes
+    loop:
+      # - mosh
+      - antiword
+      - python3
+      - python-pip
+      - python3-pip
+      - python3-setuptools
+  - name: Install pipenv
+    tags: python
+    become: yes
+    shell: pip3 install pipenv
+    register: pipenv
+    changed_when: "'installed pipenv' in pipenv.stdout"
+  - include_tasks: pyenv.yml
+  - name: Clone repo
+    tags: deploy
+    git:
+      repo: https://github.com/{{ repo_name }}
+      update: yes
+      force: yes
+      dest: ~/{{ project_name }}
+  - name: Check if app is running.
+    tags: deploy
+    shell: pgrep gunicorn
+    changed_when: False
+    register: gunicorn
+  - name: Run app
+    tags: deploy
+    when: gunicorn.rc != 0
+    # shell: pipenv run --python /usr/bin/python3 python manage.py runserver &
+    shell: pipenv run --python /usr/bin/python3 gunicorn {{ project_name }}.wsgi &
+    args:
+      chdir: ~/{{ project_name }}

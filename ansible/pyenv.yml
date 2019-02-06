@@ -1,0 +1,22 @@
+---
+- name: Clone pyenv
+  git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: ~/.pyenv
+- name: Ensure ~/.bash_profile exists
+  file:
+    path: ~/.bash_profile
+    state: touch
+- name: Set PYENV_ROOT
+  lineinfile:
+    path: ~/.bash_profile
+    line: export PYENV_ROOT="$HOME/.pyenv"
+    regexp: "^export PYENV_ROOT="
+- name: Add pyenv to PATH
+  lineinfile:
+    path: ~/.bash_profile
+    line: export PATH="$PYENV_ROOT/bin:$PATH"
+- name: Enable pyenv for bash
+  lineinfile:
+    path: ~/.bashrc
+    line: eval "$(pyenv init -)"

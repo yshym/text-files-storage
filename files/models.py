@@ -21,6 +21,7 @@ class File(models.Model):
     description = models.TextField(null=True, blank=True)
     source = models.FileField(upload_to=upload_location,
                               validators = [validate_file_extensions])
+    text = models.TextField()
     slug = models.SlugField(max_length=48)
     uploaded_by = models.ForeignKey(
         get_user_model(),
@@ -54,6 +55,11 @@ class File(models.Model):
     def delete(self, *args, **kwargs):
         self.remove_file()
         super(File, self).delete(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        super(File, self).save(*args, **kwargs)
+        self.text = self.read_text_content()
+        super(File, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['id']
