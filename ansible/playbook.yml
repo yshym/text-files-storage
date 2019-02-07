@@ -9,7 +9,6 @@
     apt: cache_valid_time=3600 name={{ item }}
     become: yes
     loop:
-      # - mosh
       - antiword
       - python3
       - python-pip
@@ -37,7 +36,6 @@
   - name: Run app
     tags: deploy
     when: gunicorn.rc != 0
-    # shell: pipenv run --python /usr/bin/python3 python manage.py runserver &
     shell: pipenv run --python /usr/bin/python3 gunicorn {{ project_name }}.wsgi &
     args:
       chdir: ~/{{ project_name }}
