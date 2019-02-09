@@ -30,6 +30,7 @@
       dest: ~/{{ project_name }}
   - name: Install pipenv deps
     shell: pipenv install
+    tags: pipenvdeps
     args:
       chdir: ~/{{ project_name }}
   - name: Check if app is running.
