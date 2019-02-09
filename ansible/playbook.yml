@@ -28,19 +28,24 @@
       update: yes
       force: yes
       dest: ~/{{ project_name }}
-  # - name: Check if app is running.
-  #   tags: deploy
-  #   shell: pgrep gunicorn
-  #   changed_when: False
-  #   register: gunicorn
-  - name: Kill gunicorn
-    shell: pkill gunicorn
-    register: kill_gunicorn
-    changed_when: kill_gunicorn.rc == 0
-    failed_when: kill_gunicorn.rc not in [0, 1]
+  - name: Install pipenv deps
+    shell: pipenv install
+    args:
+      chdir: ~/{{ project_name }}
+  - name: Check if app is running.
+    tags: deploy
+    shell: pgrep gunicorn
+    register: gunicorn
+    changed_when: False
+    failed_when: gunicorn.rc not in [0, 1]
+  # - name: Kill gunicorn
+  #   shell: pkill gunicorn
+  #   register: kill_gunicorn
+  #   changed_when: kill_gunicorn.rc == 0
+  #   failed_when: kill_gunicorn.rc not in [0, 1]
   - name: Run app
     tags: deploy
-    # when: gunicorn.rc != 0
-    shell: pipenv run --python python3.7 gunicorn {{ project_name }}.wsgi &
+    when: gunicorn.rc != 0
+    shell: pipenv run gunicorn -b 0.0.0.0 {{ project_name }}.wsgi &
     args:
       chdir: ~/{{ project_name }}
