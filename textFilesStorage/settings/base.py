@@ -38,12 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django.forms',
 
     'crispy_forms',
 
     'files',
     'users',
 ]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
