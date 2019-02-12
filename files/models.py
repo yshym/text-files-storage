@@ -13,7 +13,7 @@ from .validators import validate_file_extensions
 
 def upload_location(instance, filename):
     ext = os.path.splitext(instance.source.path)[1]
-    return '%s/%s' % (instance.name, instance.name + ext)
+    return f'{instance.name}/{instance.name + ext}'
 
 
 class File(models.Model):

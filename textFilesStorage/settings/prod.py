@@ -8,7 +8,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'textfilesstorage',
-        'USER': 'postgres',
+        'USER': 'textsuser',
+        'PASSWORD': '123321',
         'HOST': 'localhost',
     }
 }
