@@ -13,3 +13,5 @@ DATABASES = {
         'HOST': 'localhost',
     }
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

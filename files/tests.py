@@ -26,11 +26,10 @@ class FileListPageTests(TestCase):
 class FileDetailPageTests(TestCase):
 
     def create_file(self):
-        testfile = open(os.path.join(settings.BASE_DIR, 'test.txt'), 'rb')
         self.testfile, created = File.objects.get_or_create(
             name='testname',
-            source= SimpleUploadedFile('test.txt', testfile.read()),
-            description='testdescription'
+            source=SimpleUploadedFile('test.txt', b'123123123'),
+            description='testdescription',
         )
 
     def remove_file(self):

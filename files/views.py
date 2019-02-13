@@ -5,6 +5,7 @@ from django.utils.encoding import smart_str
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from .models import File
 from .forms import FileForm
@@ -30,9 +31,55 @@ class FileDetailView(generic.DetailView):
     template_name = 'file_detail.html'
 
 
+class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
+    model = File
+    fields = (
+        'name',
+        'description',
+        'text',
+    )
+    template_name = 'file_create.html'
+    success_url = reverse_lazy('file_list')
+    success_message = 'File was successfully created!'
+    creation_type = 'Anonymously'
+
+    def form_valid(self, form):
+        form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('ascii'))
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(FileAnonCreateView, self).get_context_data(**kwargs)
+        ctx['creation_type'] = self.creation_type
+        return ctx
+
+
+class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
+    model = File
+    fields = (
+        'name',
+        'description',
+        'text',
+    )
+    template_name = 'file_create.html'
+    success_url = reverse_lazy('file_list')
+    success_message = 'File was successfully created!'
+    login_url = 'login'
+    creation_type = 'With your account'
+
+    def form_valid(self, form):
+        form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('ascii'))
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(FileAuthCreateView, self).get_context_data(**kwargs)
+        ctx['creation_type'] = self.creation_type
+        return ctx
+
+
+
 class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileForm
-    template_name = 'file_create.html'
+    template_name = 'file_upload.html'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully uploaded!'
     uploading_type = 'Anonymously'
@@ -45,7 +92,7 @@ class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
 
 class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileForm
-    template_name = 'file_create.html'
+    template_name = 'file_upload.html'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully uploaded!'
     login_url = 'login'

@@ -1,21 +1,44 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 
 {% block content %}
-    <h3>Upload file</h3>
-    <hr/>
-    <h5 class="text-warning">Upload file anonymously</h5>
-    <p>
-        You are able to upload a text file without any registration or authentication
-    </p>
-    <br/>
-    <h5 class="text-success">Upload file with your account</h5>
-    <p>
-        Uploading with yout account means that any user will be able to see who uploaded this file
-    </p>
-    <hr/>
-    <div class="btn-group w-100" role="group" aria-label="Basic example">
-        <a class="btn btn-warning" href="{% url 'file_anon_upload' %}">Upload anonymously</a>
-        <a class="btn btn-success" href="{% url 'file_auth_upload' %}">Upload with your account</a>
+    <div class="card">
+        <div class="card-body">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            <h1>
+                Upload new file
+                <span
+                    class="{% if uploading_type == 'Anonymously' %}
+                           text-warning
+                           {% else %}
+                           text-success
+                           {% endif %}">
+                    ({{ uploading_type }})
+                </span>
+            </h1>
+            <hr/>
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                {{ form|crispy }}
+                <hr/>
+                <button type="sumbit" class="btn btn-success">Create</button>
+                <a href="{% url 'file_list' %}" class="btn btn-info">Back to list</a>
+            </form>
+        </div>
     </div>
 {% endblock content %}

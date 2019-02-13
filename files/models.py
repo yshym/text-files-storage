@@ -57,9 +57,16 @@ class File(models.Model):
         super(File, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        super(File, self).save(*args, **kwargs)
-        self.text = self.read_text_content()
-        super(File, self).save(*args, **kwargs)
+        if not self.text:
+            super(File, self).save(*args, **kwargs)
+            self.text = self.read_text_content()
+            super(File, self).save(*args, **kwargs)
+        else:
+            with open(self.source.path, 'w') as f:
+                f.write(self.text)
+            super(File, self).save(*args, **kwargs)
+        if os.path.isfile(os.path.join(settings.MEDIA_ROOT, 'file.txt')):
+            os.remove(os.path.join(settings.MEDIA_ROOT, 'file.txt'))
 
     class Meta:
         ordering = ['id']

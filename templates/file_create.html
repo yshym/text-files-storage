@@ -22,14 +22,14 @@
             {% endif %}
 
             <h1>
-                Upload new file
+                Create new file
                 <span
-                    class="{% if uploading_type == 'Anonymously' %}
+                    class="{% if creation_type == 'Anonymously' %}
                            text-warning
                            {% else %}
                            text-success
                            {% endif %}">
-                    ({{ uploading_type }})
+                    ({{ creation_type }})
                 </span>
             </h1>
             <hr/>
