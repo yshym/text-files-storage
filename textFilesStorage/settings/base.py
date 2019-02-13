@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.forms',
 
     'crispy_forms',
+    'markdown_deux',
 
     'files',
     'users',

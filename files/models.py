@@ -2,11 +2,13 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils.safestring import mark_safe
 
 import os, shutil
-import textract, docx2txt
+import pypandoc
 
 from slugify import slugify
+from markdown_deux import markdown
 
 from .validators import validate_file_extensions
 
@@ -34,20 +36,18 @@ class File(models.Model):
         return self.name
 
     def read_text_content(self):
-        ext = os.path.splitext(self.source.path)[1]
-        if ext == '.txt':
-            with open(self.source.path) as f:
-                return f.read()
-        elif ext == '.docx':
-            return docx2txt.process(self.source.path)
-        elif ext == '.doc':
-            return textract.process(self.source.path).decode('utf-8')
-        elif ext == '.odt':
-            return textract.process(self.source.path).decode('utf-8')
+        if self.get_ext() == '.md':
+            return pypandoc.convert_file(self.source.path, 'md')
+        return pypandoc.convert_file(self.source.path, 'txt')
 
     def get_ext(self):
         ext = os.path.splitext(self.source.path)[1]
         return ext
+
+    def get_markdown(self):
+        content = self.text
+        markdown_text = markdown(content)
+        return mark_safe(markdown_text)
 
     def remove_file(self):
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT, self.name))

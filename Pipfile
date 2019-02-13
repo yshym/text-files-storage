@@ -7,13 +7,13 @@ verify_ssl = true
 
 [packages]
 django = "*"
-textract = "*"
-docx2txt = "*"
 django-crispy-forms = "*"
 python-slugify = "*"
 gunicorn = "*"
 whitenoise = "*"
 psycopg2-binary = "*"
+django-markdown-deux = "*"
+pypandoc = "*"
 
 [requires]
 python_version = "3.7"

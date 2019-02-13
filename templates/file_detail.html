@@ -23,7 +23,13 @@
             {% endif %}
             <h5 class="card-subtitle mb-2 text-info"><i>Text content</i></h5>
             <hr/>
-            <p class="card-text">{{ file.text }}</p>
+            <p class="card-text">
+                {% if file.get_ext == '.md' %}
+                    {{ file.get_markdown}}
+                {% else %}
+                    {{ file.text }}
+                {% endif %}
+            </p>
         </div>
         <div class="card-footer">
             {% if file.uploaded_by %}
