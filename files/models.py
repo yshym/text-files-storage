@@ -38,7 +38,7 @@ class File(models.Model):
     def read_text_content(self):
         if self.get_ext() == '.md':
             return pypandoc.convert_file(self.source.path, 'md')
-        return pypandoc.convert_file(self.source.path, 'txt')
+        return pypandoc.convert_file(self.source.path, 'rst', format='rst')
 
     def get_ext(self):
         ext = os.path.splitext(self.source.path)[1]
