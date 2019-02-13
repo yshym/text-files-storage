@@ -1,2 +1,2 @@
-*.sqlite\d*
+*.sqlite*
 media_cdn/
