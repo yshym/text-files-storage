@@ -6,6 +6,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
+
+import os
 
 from .models import File
 from .forms import FileForm
@@ -107,6 +110,32 @@ class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
         ctx['uploading_type'] = self.uploading_type
         return ctx
 
+
+class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateView):
+    model = File
+    fields = (
+        'name',
+        'description',
+        'text',
+    )
+    template_name = 'file_edit.html'
+    success_url = reverse_lazy('file_list')
+    success_message = 'File was successfully edited!'
+    login_url = 'login'
+
+    def form_valid(self, form):
+        file_obj = File.objects.get(slug=str(self.kwargs['slug']))
+        form.instance.source = SimpleUploadedFile(f'{settings.MEDIA_ROOT}/{form.instance.name}/{form.instance.name}{file_obj.get_ext()}', form.instance.text.encode('ascii'))
+        file_obj.remove_file()
+        return super().form_valid(form)
+
+
+class FileDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.DeleteView):
+    model = File
+    template_name = 'file_delete.html'
+    success_url = reverse_lazy('file_list')
+    success_message = 'File was successfully deleted!'
+    login_url = 'login'
 
 
 def fileDownloadView(self, slug):

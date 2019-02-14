@@ -8,6 +8,8 @@ from .views import (
     FileAuthCreateView,
     FileAnonUploadView,
     FileAuthUploadView,
+    FileEditView,
+    FileDeleteView,
     fileDownloadView,
 )
 
@@ -17,9 +19,11 @@ urlpatterns = [
     path('create/create-anon/', FileAnonCreateView.as_view(), name='file_anon_create'),
     path('create/create-auth/', FileAuthCreateView.as_view(), name='file_auth_create'),
     path('upload/', TemplateView.as_view(template_name='file_upload_general.html'), name='file_upload'),
-    path('<slug:slug>/download/', fileDownloadView, name='file_download'),
     path('upload/upload-anon/', FileAnonUploadView.as_view(), name='file_anon_upload'),
     path('upload/upload-auth/', FileAuthUploadView.as_view(), name='file_auth_upload'),
+    path('<slug:slug>/edit/', FileEditView.as_view(), name='file_edit'),
+    path('<slug:slug>/delete/', FileDeleteView.as_view(), name='file_delete'),
+    path('<slug:slug>/download/', fileDownloadView, name='file_download'),
     path('<slug:slug>/', FileDetailView.as_view(), name='file_detail'),
     path('', FileListView.as_view(), name='file_list'),
 ]

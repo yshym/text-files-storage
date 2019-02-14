@@ -38,6 +38,10 @@
 
             <a href="{% url 'file_download' file.slug %}" class="btn btn-primary">Download</a>
             <a href="{% url 'file_list' %}" class="btn btn-info">Back to list</a>
+            <div class="btn-group">
+                <a href="{% url 'file_edit' file.slug %}" class="btn btn-outline-warning">Edit</a>
+                <a href="{% url 'file_delete' file.slug %}" class="btn btn-outline-danger">Delete</a>
+            </div>
         </div>
     </div>
 {% endblock content %}

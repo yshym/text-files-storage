@@ -65,8 +65,9 @@ class File(models.Model):
             with open(self.source.path, 'w') as f:
                 f.write(self.text)
             super(File, self).save(*args, **kwargs)
-        if os.path.isfile(os.path.join(settings.MEDIA_ROOT, 'file.txt')):
-            os.remove(os.path.join(settings.MEDIA_ROOT, 'file.txt'))
+        for f in os.listdir(settings.MEDIA_ROOT):
+            if not os.path.isdir(os.path.join(settings.MEDIA_ROOT, f)):
+                os.remove(os.path.join(settings.MEDIA_ROOT, f))
 
     class Meta:
         ordering = ['id']

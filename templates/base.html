@@ -47,9 +47,8 @@
             <!-- File create link -->
             <a
                 href="{% url 'file_create' %}"
-                class="btn btn-success"
-                style="margin-right: 120px;">
-                <i class="fa fa-file"></i>
+                class="btn btn-success">
+                <i class="far fa-file"></i>
             </a>
 
             <!-- Search collapse button -->
@@ -82,35 +81,36 @@
 
             <!-- Search collapse div -->
             <div class="container">
-                <div
-                    class="collapse navbar-collapse"
-                    id="navbarSearch">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item mx-auto" >
-                            <form
-                                class="form-inline"
-                                method="GET"
-                                action="{% url 'file_list' %}">
-                                <div class="input-group">
-                                    <input
-                                        class="form-control"
-                                        type="search"
-                                        placeholder="Search"
-                                        aria-label="Search"
-                                        name="Search"
-                                        value="{{ request.GET.Search }}">
-                                    <span class="input-group-append">
-                                        <button
-                                            class="btn btn-outline-success"
-                                            type="submit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+            <div
+                class="collapse navbar-collapse mr-4"
+                id="navbarSearch">
+                <hr/>
+                <ul class="navbar-nav mr-auto ml-4">
+                    <li class="nav-item mx-auto">
+                        <form
+                            class="form-inline"
+                            method="GET"
+                            action="{% url 'file_list' %}">
+                            <div class="input-group">
+                                <input
+                                    class="form-control"
+                                    type="search"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                    name="Search"
+                                    value="{{ request.GET.Search }}">
+                                <span class="input-group-append">
+                                    <button
+                                        class="btn btn-outline-success"
+                                        type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
             </div>
 
             {% if user.is_authenticated %}
