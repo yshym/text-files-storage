@@ -27,7 +27,7 @@
                 {% if file.get_ext == '.md' %}
                     {{ file.get_markdown}}
                 {% else %}
-                    {{ file.text }}
+                    {{ file.text|linebreaks }}
                 {% endif %}
             </p>
         </div>
