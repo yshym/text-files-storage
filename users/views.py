@@ -9,6 +9,6 @@ from .forms import CustomUserForm
 class SignUpView(CreateView):
     form_class = CustomUserForm
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    template_name = 'signup.djhtml'
     success_message = 'Account was successfully created!'
 

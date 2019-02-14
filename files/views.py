@@ -16,7 +16,7 @@ from .forms import FileForm
 
 class FileListView(generic.ListView):
     model = File
-    template_name = 'file_list.html'
+    template_name = 'file_list.djhtml'
     paginate_by = 10
 
     def get_queryset(self):
@@ -31,7 +31,7 @@ class FileListView(generic.ListView):
 
 class FileDetailView(generic.DetailView):
     model = File
-    template_name = 'file_detail.html'
+    template_name = 'file_detail.djhtml'
 
 
 class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
@@ -41,7 +41,7 @@ class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
         'description',
         'text',
     )
-    template_name = 'file_create.html'
+    template_name = 'file_create.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully created!'
     creation_type = 'Anonymously'
@@ -63,7 +63,7 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
         'description',
         'text',
     )
-    template_name = 'file_create.html'
+    template_name = 'file_create.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully created!'
     login_url = 'login'
@@ -82,7 +82,7 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
 
 class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileForm
-    template_name = 'file_upload.html'
+    template_name = 'file_upload.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully uploaded!'
     uploading_type = 'Anonymously'
@@ -95,7 +95,7 @@ class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
 
 class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileForm
-    template_name = 'file_upload.html'
+    template_name = 'file_upload.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully uploaded!'
     login_url = 'login'
@@ -118,7 +118,7 @@ class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateV
         'description',
         'text',
     )
-    template_name = 'file_edit.html'
+    template_name = 'file_edit.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully edited!'
     login_url = 'login'
@@ -132,7 +132,7 @@ class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateV
 
 class FileDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.DeleteView):
     model = File
-    template_name = 'file_delete.html'
+    template_name = 'file_delete.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully deleted!'
     login_url = 'login'

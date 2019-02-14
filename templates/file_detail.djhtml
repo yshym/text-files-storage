@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.djhtml' %}
 
 
 {% block title %}{{ file.name }} | {{ block.super }}{% endblock title %}
