@@ -22,7 +22,7 @@ urlpatterns = [
     ),
     path('create/create-anon/', FileAnonCreateView.as_view(), name='file_anon_create'),
     path('create/create-auth/', FileAuthCreateView.as_view(), name='file_auth_create'),
-    path('upload/', TemplateView.as_view(template_name='file_upload_general.html'), name='file_upload'),
+    path('upload/', TemplateView.as_view(template_name='file_upload_general.djhtml'), name='file_upload'),
     path('upload/upload-anon/', FileAnonUploadView.as_view(), name='file_anon_upload'),
     path('upload/upload-auth/', FileAuthUploadView.as_view(), name='file_auth_upload'),
     path('<slug:slug>/edit/', FileEditView.as_view(), name='file_edit'),

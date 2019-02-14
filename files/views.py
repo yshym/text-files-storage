@@ -125,7 +125,7 @@ class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateV
 
     def form_valid(self, form):
         file_obj = File.objects.get(slug=str(self.kwargs['slug']))
-        form.instance.source = SimpleUploadedFile(f'{settings.MEDIA_ROOT}/{form.instance.name}/{form.instance.name}{file_obj.get_ext()}', form.instance.text.encode('ascii'))
+        form.instance.source = SimpleUploadedFile(f'{settings.MEDIA_ROOT}/{form.instance.name}/{form.instance.name}{file_obj.get_ext()}', form.instance.text.encode('utf-8'))
         file_obj.remove_file()
         return super().form_valid(form)
 

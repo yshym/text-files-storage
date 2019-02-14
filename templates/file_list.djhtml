@@ -50,8 +50,8 @@
 
 
     {% if is_paginated %}
-        <nav aria-label="..." class="mx-auto">
-            <ul class="pagination">
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
                         <a class="page-link"
