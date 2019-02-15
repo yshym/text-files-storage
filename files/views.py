@@ -11,7 +11,7 @@ from django.conf import settings
 import os
 
 from .models import File
-from .forms import FileForm
+from .forms import FileForm, FileCreateForm
 
 
 class FileListView(generic.ListView):
@@ -35,19 +35,17 @@ class FileDetailView(generic.DetailView):
 
 
 class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
-    model = File
-    fields = (
-        'name',
-        'description',
-        'text',
-    )
+    form_class = FileCreateForm
     template_name = 'file_create.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully created!'
     creation_type = 'Anonymously'
 
     def form_valid(self, form):
-        form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('ascii'))
+        if form.cleaned_data.get('text_format') == '.md':
+            form.instance.source = SimpleUploadedFile('file.md', form.instance.text.encode('utf-8'))
+        elif form.cleaned_data.get('text_format') == '.txt':
+            form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('utf-8'))
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -57,12 +55,7 @@ class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
 
 
 class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
-    model = File
-    fields = (
-        'name',
-        'description',
-        'text',
-    )
+    form_class = FileCreateForm
     template_name = 'file_create.djhtml'
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully created!'
@@ -70,7 +63,7 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
     creation_type = 'With your account'
 
     def form_valid(self, form):
-        form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('ascii'))
+        form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('utf-8'))
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

@@ -14,5 +14,21 @@ class FileForm(forms.ModelForm):
         fields = (
             'name',
             'source',
-            'description'
+            'description',
+        )
+
+
+class FileCreateForm(forms.ModelForm):
+    EXTS = (
+        ('.md', 'Markdown'),
+        ('.txt', 'Text'),
+    )
+    text_format = forms.ChoiceField(choices=EXTS)
+
+    class Meta:
+        model = File
+        fields = (
+            'name',
+            'description',
+            'text',
         )
