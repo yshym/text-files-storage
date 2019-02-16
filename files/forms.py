@@ -4,7 +4,7 @@ from django_select2.forms import Select2MultipleWidget
 from .models import File, FileTag
 from .widgets import CustomFileUpload
 
-class FileForm(forms.ModelForm):
+class FileUploadForm(forms.ModelForm):
 
     class Meta:
         model = File
@@ -33,7 +33,11 @@ class FileCreateForm(forms.ModelForm):
             'name',
             'description',
             'text',
+            'tags',
         )
+        widgets = {
+            'tags': Select2MultipleWidget
+        }
 
 
 class FileEditForm(forms.ModelForm):

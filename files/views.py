@@ -11,7 +11,7 @@ from django.conf import settings
 import os
 
 from .models import File
-from .forms import FileForm, FileCreateForm, FileEditForm
+from .forms import FileUploadForm, FileCreateForm, FileEditForm
 from django_select2.forms import Select2MultipleWidget
 
 class FileListView(generic.ListView):
@@ -64,7 +64,11 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
     creation_type = 'With your account'
 
     def form_valid(self, form):
-        form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('utf-8'))
+        if form.cleaned_data.get('text_format') == '.md':
+            form.instance.source = SimpleUploadedFile('file.md', form.instance.text.encode('utf-8'))
+        elif form.cleaned_data.get('text_format') == '.txt':
+            form.instance.source = SimpleUploadedFile('file.txt', form.instance.text.encode('utf-8'))
+        form.instance.uploaded_by = self.request.user
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -77,7 +81,7 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
 
 
 class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
-    form_class = FileForm
+    form_class = FileUploadForm
     template_name = 'file_upload.djhtml'
     success_message = 'File was successfully uploaded!'
     uploading_type = 'Anonymously'
@@ -91,7 +95,7 @@ class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
         return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
 
 class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
-    form_class = FileForm
+    form_class = FileUploadForm
     template_name = 'file_upload.djhtml'
     success_message = 'File was successfully uploaded!'
     login_url = 'login'

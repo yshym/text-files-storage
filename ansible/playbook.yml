@@ -40,6 +40,11 @@
       path: "{{ project_name }}/{{ project_name }}/settings/__init__.py"
       regexp: 'from \.\w+ import \*'
       line: 'from .prod import *'
+  - name: Migrate db
+    tags: deploy
+    shell: pipenv run python manage.py migrate
+    args:
+      chdir: ~/{{ project_name }}
   - name: Collect static files
     tags: deploy
     shell: pipenv run python manage.py collectstatic --noinput

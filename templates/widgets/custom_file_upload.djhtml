@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <div class="input-group mb-3">
     <div class="custom-file">
         <input type="file" name="{{ widget.name }}" id="id_{{ widget.name }}" class="custom-file-input" id="inputGroupFile03">
@@ -5,7 +8,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="{% static 'js/jquery.slim.min.js' %}"></script>
 <script type="text/javascript">
  $(document).ready(function(){
      $('.custom-file-input').change(function(e){
