@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, pre_delete, post_save
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.safestring import mark_safe
@@ -13,10 +13,16 @@ from markdown_deux import markdown
 from .validators import validate_file_extensions
 
 
+class FileTag(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+
 def upload_location(instance, filename):
     ext = os.path.splitext(instance.source.path)[1]
     return f'{instance.name}/{instance.name + ext}'
-
 
 class File(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -29,6 +35,10 @@ class File(models.Model):
         get_user_model(),
         on_delete=models.CASCADE,
         null=True,
+        blank=True,
+    )
+    tags = models.ManyToManyField(
+        FileTag,
         blank=True,
     )
 
@@ -52,10 +62,6 @@ class File(models.Model):
     def remove_file(self):
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT, self.name))
 
-    def delete(self, *args, **kwargs):
-        self.remove_file()
-        super(File, self).delete(*args, **kwargs)
-
     def save(self, *args, **kwargs):
         if not self.text:
             super(File, self).save(*args, **kwargs)
@@ -65,9 +71,6 @@ class File(models.Model):
             with open(self.source.path, 'w') as f:
                 f.write(self.text)
             super(File, self).save(*args, **kwargs)
-        for f in os.listdir(settings.MEDIA_ROOT):
-            if not os.path.isdir(os.path.join(settings.MEDIA_ROOT, f)):
-                os.remove(os.path.join(settings.MEDIA_ROOT, f))
 
     class Meta:
         ordering = ['id']
@@ -78,3 +81,17 @@ def pre_save_file_receiver(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.name)
 
 pre_save.connect(pre_save_file_receiver, sender=File)
+
+
+def pre_delete_file_receiver(sender, instance, *args, **kwargs):
+    instance.remove_file()
+
+pre_delete.connect(pre_delete_file_receiver, sender=File)
+
+
+def post_save_file_receiver(sender, instance, *args, **kwargs):
+    for f in os.listdir(settings.MEDIA_ROOT):
+        if not os.path.isdir(os.path.join(settings.MEDIA_ROOT, f)):
+            os.remove(os.path.join(settings.MEDIA_ROOT, f))
+
+post_save.connect(post_save_file_receiver, sender=File)

@@ -11,8 +11,8 @@ from django.conf import settings
 import os
 
 from .models import File
-from .forms import FileForm, FileCreateForm
-
+from .forms import FileForm, FileCreateForm, FileEditForm
+from django_select2.forms import Select2MultipleWidget
 
 class FileListView(generic.ListView):
     model = File
@@ -37,7 +37,6 @@ class FileDetailView(generic.DetailView):
 class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileCreateForm
     template_name = 'file_create.djhtml'
-    success_url = reverse_lazy('file_list')
     success_message = 'File was successfully created!'
     creation_type = 'Anonymously'
 
@@ -53,11 +52,13 @@ class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
         ctx['creation_type'] = self.creation_type
         return ctx
 
+    def get_success_url(self):
+        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
+
 
 class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileCreateForm
     template_name = 'file_create.djhtml'
-    success_url = reverse_lazy('file_list')
     success_message = 'File was successfully created!'
     login_url = 'login'
     creation_type = 'With your account'
@@ -71,12 +72,13 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
         ctx['creation_type'] = self.creation_type
         return ctx
 
+    def get_success_url(self):
+        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
 
 
 class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileForm
     template_name = 'file_upload.djhtml'
-    success_url = reverse_lazy('file_list')
     success_message = 'File was successfully uploaded!'
     uploading_type = 'Anonymously'
 
@@ -85,11 +87,12 @@ class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
         ctx['uploading_type'] = self.uploading_type
         return ctx
 
+    def get_success_url(self):
+        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
 
 class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileForm
     template_name = 'file_upload.djhtml'
-    success_url = reverse_lazy('file_list')
     success_message = 'File was successfully uploaded!'
     login_url = 'login'
     uploading_type = 'With your account'
@@ -103,16 +106,13 @@ class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
         ctx['uploading_type'] = self.uploading_type
         return ctx
 
+    def get_success_url(self):
+        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
 
 class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateView):
     model = File
-    fields = (
-        'name',
-        'description',
-        'text',
-    )
+    form_class = FileEditForm
     template_name = 'file_edit.djhtml'
-    success_url = reverse_lazy('file_list')
     success_message = 'File was successfully edited!'
     login_url = 'login'
 
@@ -122,6 +122,8 @@ class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateV
         file_obj.remove_file()
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
 
 class FileDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.DeleteView):
     model = File

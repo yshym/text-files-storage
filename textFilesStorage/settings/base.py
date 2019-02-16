@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'markdown_deux',
+    'django_select2',
 
     'files',
     'users',

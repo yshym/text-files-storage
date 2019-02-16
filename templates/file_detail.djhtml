@@ -5,13 +5,31 @@
 
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="card">
-        <div class="card-header d-flex justify-content-end">
+        <div class="card-header d-flex">
             <h4>{{ file.name }}</h4>
             <span class="badge text-wrap border border-warning ml-auto text-secondary h-100">
                 {{ file.get_ext }}
             </span>
         </div>
+        {% if file.tags.all %}
+        <div class="card-header">
+            <span class="text-monospace">
+                Tags:
+                {% for tag in file.tags.all %}
+                    {{ tag }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+        {% endif %}
         <div class="card-body">
             {% if file.description %}
                 <h5 class="card-subtitle mb-2 text-info"><i>Description</i></h5>

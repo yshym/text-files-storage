@@ -17,12 +17,25 @@
         {% for file in object_list %}
             <div class="col-sm-6">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-end">
+                    <div class="card-header d-flex">
                         {{ file.name }}
                         <span class="badge text-wrap border border-warning ml-auto text-secondary h-100">
                             {{ file.get_ext }}
                         </span>
                     </div>
+                    {% if file.tags.all %}
+                        <div class="card-header">
+                            <span
+                                class="text-monospace"
+                                style="font-size: 14px;">
+                                Tags:
+                                {% for tag in file.tags.all %}
+                                    {{ tag }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    {% endif %}
+
                     <div class="card-body">
                         {{ file.description|truncatewords:10 }}
                     </div>
