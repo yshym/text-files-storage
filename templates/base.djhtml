@@ -33,7 +33,7 @@
             <!-- Navbar title -->
             <a
                 class="navbar-brand text-dark"
-                href="{% url 'file_list' %}">
+                href="{% url 'home' %}">
                 Text files storage
             </a>
 

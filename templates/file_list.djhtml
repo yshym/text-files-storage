@@ -5,6 +5,15 @@
 
 
 {% block content %}
+    {% if tagged_list %}
+        <a
+            class="btn btn-light w-100 mb-4"
+            href="{% url 'tag_list' %}">
+            Back to tags table
+        </a>
+    {% endif %}
+
+
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-success">
@@ -44,7 +53,7 @@
                         <span class="badge text wrap">Uploaded by: {{ file.uploaded_by }}</span><hr/>
                         {% endif %}
                         <a href="{% url 'file_download' file.slug %}" class="btn btn-primary">Download</a>
-                        <a href="{% url 'file_detail' file.slug %}" class="btn btn-info">Details</a>
+                        <a href="{{ file.get_absolute_url }}" class="btn btn-info">Details</a>
                         {% if user == file.uploaded_by or user.is_superuser or user_is_staff %}
                             <div class="btn-group">
                                 <a href="{% url 'file_edit' file.slug %}" class="btn btn-outline-warning">Edit</a>

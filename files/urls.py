@@ -11,10 +11,14 @@ from .views import (
     FileEditView,
     FileDeleteView,
     fileDownloadView,
+    TagListView,
+    TaggedFileListView,
 )
 
 
 urlpatterns = [
+    path('tags/', TagListView.as_view(), name='tag_list'),
+    path('tags/<slug:tag>/', TaggedFileListView.as_view(), name='tagged_file_list'),
     path(
         'create/',
          TemplateView.as_view(template_name='file_create_general.djhtml'),

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.views import generic
 from django.urls import reverse_lazy
@@ -10,7 +11,7 @@ from django.conf import settings
 
 import os
 
-from .models import File
+from .models import File, FileTag
 from .forms import FileUploadForm, FileCreateForm, FileEditForm
 from django_select2.forms import Select2MultipleWidget
 
@@ -53,7 +54,7 @@ class FileAnonCreateView(SuccessMessageMixin, generic.edit.CreateView):
         return ctx
 
     def get_success_url(self):
-        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
+        return self.object.get_absolute_url()
 
 
 class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
@@ -77,7 +78,7 @@ class FileAuthCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
         return ctx
 
     def get_success_url(self):
-        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
+        return self.object.get_absolute_url()
 
 
 class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
@@ -92,7 +93,7 @@ class FileAnonUploadView(SuccessMessageMixin, generic.edit.CreateView):
         return ctx
 
     def get_success_url(self):
-        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
+        return self.object.get_absolute_url()
 
 class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
     form_class = FileUploadForm
@@ -111,7 +112,7 @@ class FileAuthUploadView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.C
         return ctx
 
     def get_success_url(self):
-        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
+        return self.object.get_absolute_url()
 
 class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateView):
     model = File
@@ -127,7 +128,7 @@ class FileEditView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.UpdateV
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('file_detail', kwargs={'slug': str(self.object.slug)})
+        return self.object.get_absolute_url()
 
 class FileDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.DeleteView):
     model = File
@@ -145,3 +146,25 @@ def fileDownloadView(self, slug):
     response = HttpResponse(myfile, content_type ='application/force-download')
     response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file_name)
     return response
+
+
+class TagListView(generic.ListView):
+    model = FileTag
+    template_name = 'tag_list.djhtml'
+
+
+class TaggedFileListView(generic.ListView):
+    model = File
+    template_name = 'file_list.djhtml'
+    tagged_list = True
+
+    def get_queryset(self):
+        tagslug = self.kwargs['tag']
+        tag = FileTag.objects.get(slug=tagslug)
+        files = File.objects.filter(tags=tag)
+        return files
+
+    def get_context_data(self, **kwargs):
+        ctx = super(TaggedFileListView, self).get_context_data(**kwargs)
+        ctx['tagged_list'] = self.tagged_list
+        return ctx

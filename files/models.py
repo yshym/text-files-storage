@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 from django.db.models.signals import pre_save, pre_delete, post_save
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -15,9 +16,22 @@ from .validators import validate_file_extensions
 
 class FileTag(models.Model):
     name = models.CharField(max_length=32)
+    slug = models.SlugField(max_length=48)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+
+    def active(self):
+        if File.objects.filter(tags=self):
+            return True
+        else:
+            return False
+
+    def num_of_inst(self):
+        return File.objects.filter(tags=self).count()
 
 
 def upload_location(instance, filename):
@@ -74,6 +88,9 @@ class File(models.Model):
 
     class Meta:
         ordering = ['id']
+
+    def get_absolute_url(self):
+        return reverse_lazy('file_detail', kwargs={'slug': str(self.slug)})
 
 
 def pre_save_file_receiver(sender, instance, *args, **kwargs):

@@ -16,5 +16,6 @@ admin.site.register(File, FileAdmin)
 class FileTagAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+    prepopulated_fields = {"slug": ("name",)}
 
 admin.site.register(FileTag, FileTagAdmin)
