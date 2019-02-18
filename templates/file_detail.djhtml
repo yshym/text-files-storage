@@ -25,7 +25,7 @@
             <span class="text-monospace">
                 Tags:
                 {% for tag in file.tags.all %}
-                    {{ tag }}{% if not forloop.last %}, {% endif %}
+                    <a class="text-decoration-none" href="{% url 'tagged_file_list' tag.slug %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
             </span>
         </div>
