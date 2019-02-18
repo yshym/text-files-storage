@@ -18,9 +18,7 @@
             href="{% static 'css/bootstrap.min.css' %}">
         <link
             rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-            crossorigin="anonymous">
+            href="{% static 'css/fontawesome.css' %}">
         {{ form.media.css }}
     </head>
 
@@ -41,7 +39,7 @@
             <a
                 href="{% url 'file_upload' %}"
                 class="btn btn-warning mr-2">
-                <i class="fa fa-file-upload"></i>
+                <i class="fas fa-file-upload"></i>
             </a>
 
             <!-- File create link -->
@@ -178,7 +176,8 @@
             src="{% static 'js/popper.min.js' %}"></script>
         <script
             src="{% static 'js/bootstrap.min.js' %}"></script>
-
+        <script
+            src="{% static 'js/fontawesome.js' %}"></script>
         {{ form.media.js }}
     </body>
 </html>
