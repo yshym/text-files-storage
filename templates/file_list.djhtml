@@ -1,7 +1,7 @@
 {% extends 'base.djhtml' %}
 
 
-{% block title %}{{ block.super }}{% endblock title %}
+{% block title %}Files list | {{ block.super }}{% endblock title %}
 
 
 {% block content %}

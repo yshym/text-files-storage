@@ -3,6 +3,9 @@
 {% load static %}
 
 
+{% block title %}{{ block.super }}{% endblock title %}
+
+
 {% block content %}
     <h2 class="text-center">Text files storage</h2>
     <hr/>

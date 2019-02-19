@@ -1,5 +1,7 @@
 {% extends 'base.djhtml' %}
 
+{% block title %}Create file | {{ block.super }}{% endblock title %}
+
 
 {% block content %}
     <h3>Create file</h3>

@@ -3,6 +3,9 @@
 {% load crispy_forms_tags %}
 
 
+{% block title %}Edit file | {{ block.super }}{% endblock title %}
+
+
 {% block content %}
     {% if user == file.uploaded_by or user.is_superuser or user_is_staff %}
         <div class="card">

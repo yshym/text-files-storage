@@ -1,6 +1,9 @@
 {% extends 'base.djhtml' %}
 
 
+{% block title %}Upload file | {{ block.super }}{% endblock title %}
+
+
 {% block content %}
     <h3>Upload file</h3>
     <hr/>
