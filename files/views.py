@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views import generic
 from django.urls import reverse_lazy
 from django.utils.encoding import smart_str
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -136,6 +137,10 @@ class FileDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.edit.Delet
     success_url = reverse_lazy('file_list')
     success_message = 'File was successfully deleted!'
     login_url = 'login'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(FileDeleteView, self).delete(request, *args, **kwargs)
 
 
 def fileDownloadView(self, slug):
