@@ -40,10 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.forms',
 
+    # Third-party
     'crispy_forms',
     'markdown_deux',
     'django_select2',
+    'django_elasticsearch_dsl',
 
+    # Local
     'files',
     'users',
 ]
@@ -150,3 +153,11 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = '***REMOVED***'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+# Elasticsearch_dsl
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}

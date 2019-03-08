@@ -15,6 +15,9 @@ psycopg2-binary = "*"
 django-markdown-deux = "*"
 pypandoc = "*"
 django-select2 = "*"
+django-elasticsearch-dsl = "*"
+urllib3 = "*"
+chardet = "*"
 
 [requires]
 python_version = "3.7"
