@@ -15,6 +15,7 @@
         - python-pip
         - python3-pip
         - python3-setuptools
+        - elasticsearch
   - name: Install pipenv
     tags: python
     become: yes
@@ -48,6 +49,21 @@
   - name: Collect static files
     tags: deploy
     shell: pipenv run python manage.py collectstatic --noinput
+    args:
+      chdir: ~/{{ project_name }}
+  - name: Check elasticsearch
+    tags: deploy
+    shell: systemctl is-active --quiet elasticsearch
+    register: check_elasticsearch
+    failed_when: check_elasticsearch.rc not in [0, 1]
+  - name: Run elasticsearch
+    become: yes
+    tags: deploy
+    shell: systemctl start elasticsearch
+    when: check_elasticsearch.rc == 1
+  - name: Rebuild elasticsearch json
+    tags: deploy
+    shell: python manage.py search_index -f -rebuild
     args:
       chdir: ~/{{ project_name }}
   - name: Kill gunicorn
