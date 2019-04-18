@@ -16,7 +16,6 @@
 ---
 
 ![Screenshot6](readme_images/screenshot6.png)
----
 
 ![Screenshot7](readme_images/screenshot7.png)
 ---
