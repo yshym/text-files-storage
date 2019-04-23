@@ -18,6 +18,7 @@ django-elasticsearch-dsl = "*"
 urllib3 = "*"
 chardet = "*"
 django-select2 = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,2 +1,3 @@
 *.sqlite*
 media_cdn/
+.env
