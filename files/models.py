@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.safestring import mark_safe
 
-import os, shutil
+import os, shutil, textract
 import pypandoc
 
 from slugify import slugify
@@ -62,6 +62,8 @@ class File(models.Model):
     def read_text_content(self):
         if self.get_ext() == '.txt':
             return pypandoc.convert_file(self.source.path, 'rst', format='rst')
+        elif self.get_ext() == '.doc':
+            return textract.process(self.source.path).decode('utf-8')
         else:
             return pypandoc.convert_file(self.source.path, 'rst', format=self.get_ext()[1:])
 
