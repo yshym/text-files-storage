@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'markdown_deux',
     'django_select2',
-    'django_elasticsearch_dsl',
+    # 'django_elasticsearch_dsl',
 
     # Local
     'files',
@@ -159,8 +159,8 @@ EMAIL_USE_TLS = True
 
 
 # Elasticsearch_dsl
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}
+# ELASTICSEARCH_DSL = {
+#     'default': {
+#         'hosts': 'localhost:9200'
+#     },
+# }
