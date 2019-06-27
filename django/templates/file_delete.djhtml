@@ -1,0 +1,45 @@
+{% extends 'base.djhtml' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}Delete file | {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    {% if user == file.uploaded_by or user.is_superuser or user.is_staff %}
+        <div class="card">
+            <div class="card-body">
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+
+                <h1>
+                    Delete file
+                </h1>
+                <hr/>
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <p>
+                        Are you sure want to delete file <span class="font-weight-bold">{{file.name}}{{file.get_ext}}</span> ?
+                    </p>
+                    <hr/>
+                    <button type="sumbit" class="btn btn-danger">Confirm</button>
+                    <a href="{% url 'file_list' %}" class="btn btn-info">Back to list</a>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <h5>You are not the owner of this file to delete it.</h5>
+    {% endif %}
+{% endblock content %}

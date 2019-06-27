@@ -1,0 +1,24 @@
+{% extends 'base.djhtml' %}
+
+
+{% block title %}Tags table | {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <div class="row">
+        {% for filetag in filetag_list %}
+            {% if filetag.active %}
+                <div class="col-sm-4 pb-4">
+                    <a
+                        class="list-group-item d-flex justify-content-between align-items-center text-dark"
+                        href="{% url 'tagged_file_list' filetag.slug %}">
+                        {{ filetag }}
+                        <span class="badge badge-primary badge-pill">{{ filetag.num_of_inst }}</span>
+                    </a>
+                </div>
+
+                {% cycle "" "" "<div class='row'></div>" %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock content %}

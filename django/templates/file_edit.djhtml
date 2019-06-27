@@ -1,0 +1,42 @@
+{% extends 'base.djhtml' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}Edit file | {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    {% if user == file.uploaded_by or user.is_superuser or user.is_staff %}
+        <div class="card">
+            <div class="card-body">
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong> </div>
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+
+                <h1>
+                    Edit file
+                </h1>
+                <hr/>
+                <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    {{ form|crispy }}
+                    <hr/>
+                    <button type="sumbit" class="btn btn-warning">Edit</button>
+                    <a href="{% url 'file_list' %}" class="btn btn-info">Back to list</a>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <h5>You are not the owner of this file to edit it.</h5>
+    {% endif %}
+{% endblock content %}

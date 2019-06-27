@@ -1,0 +1,23 @@
+{% extends 'base.djhtml' %}
+
+{% block title %}Create file | {{ block.super }}{% endblock title %}
+
+
+{% block content %}
+    <h3>Create file</h3>
+    <hr/>
+    <h5 class="text-warning">Create file anonymously</h5>
+    <p>
+        You are able to create a text file without any registration or authentication
+    </p>
+    <br/>
+    <h5 class="text-success">Create file with your account</h5>
+    <p>
+        Creation with yout account means that any user will be able to see who created this file
+    </p>
+    <hr/>
+    <div class="btn-group w-100" role="group" aria-label="Basic example">
+        <a class="btn btn-warning" href="{% url 'file_anon_create' %}">Create anonymously</a>
+        <a class="btn btn-success" href="{% url 'file_auth_create' %}">Create with your account</a>
+    </div>
+{% endblock content %}
