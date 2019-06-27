@@ -170,6 +170,8 @@
         </div>
 
 
+        <!-- <script src="{% static 'bundles/main.js' %}"></script>
+        -->
         <script
             src="{% static 'js/jquery.slim.min.js' %}"></script>
         <script
