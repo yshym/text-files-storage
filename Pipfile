@@ -14,12 +14,12 @@ whitenoise = "*"
 psycopg2-binary = "*"
 django-markdown-deux = "*"
 pypandoc = "*"
-django-elasticsearch-dsl = "*"
 urllib3 = "*"
 chardet = "*"
 django-select2 = "*"
 python-dotenv = "*"
 textract = "*"
+django-elasticsearch-dsl = "*"
 
 [requires]
 python_version = "3.7"

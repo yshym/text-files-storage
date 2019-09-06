@@ -25,17 +25,17 @@ class FileListView(generic.ListView):
     def get_queryset(self):
         query = self.request.GET.get('Search')
         if query:
-            object_list = self.model.objects.filter(Q(name__icontains = query) |
-                                                    Q(description__icontains = query))
-            # search_obj = FileDocument.search().query(
-            #     'query_string',
-            #     fields=(
-            #         'name',
-            #         'description',
-            #     ),
-            #     query=f'*{query}*'
-            # )
-            # object_list = search_obj.to_queryset()
+            # object_list = self.model.objects.filter(Q(name__icontains = query) |
+            #                                         Q(description__icontains = query))
+            search_obj = FileDocument.search().query(
+                'query_string',
+                fields=(
+                    'name',
+                    'description',
+                ),
+                query=f'*{query}*'
+            )
+            object_list = search_obj.to_queryset()
         else:
             object_list = self.model.objects.all()
         return object_list
