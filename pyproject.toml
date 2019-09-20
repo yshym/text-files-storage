@@ -20,6 +20,8 @@ django-select2 = "*"
 python-dotenv = "*"
 textract = "*"
 django-elasticsearch-dsl = "*"
+django-jet = "^1.0"
+google-api-python-client = "^1.7"
 
 [tool.poetry.dev-dependencies]
 
